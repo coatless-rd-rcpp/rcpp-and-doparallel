@@ -7,7 +7,15 @@
 The `Rcpp2doParallel` _R_ package provides an example of providing a _C++_
 function and a parallelization call from _R_ to the _C++_ function using
 the [`doParallel`](https://cran.r-project.org/package=doParallel) and 
-[`foreach`](https://cran.r-project.org/package=foreach) backend.
+[`foreach`](https://cran.r-project.org/package=foreach) backend. That said,
+any of the `do*` backends -- [`doFuture`](https://cran.r-project.org/package=doFuture), 
+[`doMC`](https://cran.r-project.org/package=doMC), 
+[`doMPI`](https://cran.r-project.org/package=doMPI),  
+[`doRedis`](https://cran.r-project.org/package=doRedis), 
+[`doRNG`](https://cran.r-project.org/package=doRNG), 
+[`doSNOW`](https://cran.r-project.org/package=doSNOW) -- can be substituted
+in for the [`doParallel`](https://cran.r-project.org/package=doParallel) backend
+used as a driving example here.
 
 ### Usage
 
@@ -29,9 +37,12 @@ library("Rcpp2doParallel")
 ### Implementation Details
 
 Within this project, there is a _C++_ function created using `Rcpp` that is used
-by the `doParallel` _R_ package. By packaging the _C++_ function, the cost when
-parallelizing code is decreased as each worker in the parallelization setup 
-does not have to compile the code locally before being able to execute it. 
+by the `doParallel` region within the _R_ package. By packaging the _C++_ function, 
+the cost when parallelizing code is decreased as each worker in the
+parallelization setup does not have to compile the code locally before being
+able to execute it. Moreover, by packing the parallelization code, the deployment
+of the algorithm is done using _R_'s package management instead of a monolithic
+_R_ script.
 
 ```bash
 .
@@ -52,7 +63,117 @@ does not have to compile the code locally before being able to execute it.
     └── mean_rcpp.cpp                # Construct a C++ function to comupte mean.
 ```
 
-Add a few more details... 
+### R Function
+
+Parallelized _R_ functions require a cluster or set of workers to be setup for
+the underlying jobs in the parallelization region to be distributed to. 
+The approach taken here self-contains the setup and execution of parallel workers.
+By encapsulating both options within the function, there is a higher runtime
+cost on subsequent function calls as the cluster must be setup again. An
+alternative approach would be to pass an initialized cluster into the
+function. 
+
+When constructing a parallelized region with `foreach`, one must:
+
+1. Startup a cluster with `cl = parallel::startCluster(n_workers)`
+2. Register the parallel backend with the `do*` package using `do*::registerDo*()`.
+   - In the case of `doParallel`, this would be `doParallel::registerDoParallel(cl)`.
+3. Denote the parallelization region with `foreach() %dopar%`
+   - Pay close attention to any variables or packages that must be exported.
+     Supply such data using `foreach(..., .packages = c("pkgA", "pkgB"), .export = c("var1", "var2"))`
+   - As an example, `Rcpp2doParallel` is loaded on each worker by using
+     `foreach(..., .packages = "Rcpp2doParallel")`  
+4. Shut down the cluster with `parallel::stopCluster(cl)`.
+   - Alternatively, define a handler for the end of the function that
+     stops the cluster with `on.exit(parallel::stopCluster(cl))` 
+5. Return the results of the estimation.
+
+```r
+mean_parallel_compute = function(n, mean = 0, sd = 1,
+                                 n_sim = 1000,
+                                 n_cores = parallel::detectCores()) {
+
+  # Construct cluster
+  cl = parallel::makeCluster(n_cores)
+
+  # After the function is run, shutdown the cluster.
+  on.exit(parallel::stopCluster(cl))
+
+  # Register parallel backend
+  doParallel::registerDoParallel(cl)   # Modify with any do*::registerDo*()
+
+  # Compute estimates
+  estimates = foreach::foreach(i = iterators::icount(n_sim), # Perform n simulations
+                               .combine = "rbind",           # Combine results
+                                                             # Self-load
+                               .packages = "Rcpp2doParallel") %dopar% {
+    random_data = rnorm(n, mean, sd)
+
+    result = mean_rcpp(random_data) # or use Rcpp2doParallel::mean_rcpp()
+    result
+  }
+
+  # Release results
+  return(estimates)
+}
+```
+
+### C++ Function Construction
+
+The C++ function must be placed within the package's `src/` directory and
+exported into _R_ with Rcpp Attributes. Outside of these two requirements,
+nothing else must be done as the parallelization is handled by _R_ and **not**
+within the _C++_ code.
+
+```cpp
+#include <Rcpp.h>
+
+// [[Rcpp::export]]
+double mean_rcpp(Rcpp::NumericVector x){
+  int n = x.size(); // Size of vector
+  double sum = 0;   // Sum value
+
+  // For loop, note cpp index shift to 0
+  for(int i = 0; i < n; i++){
+    // Shorthand for sum = sum + x[i]
+    sum += x[i];
+  }
+
+  return sum/n;  // Obtain and return the Mean
+}
+```
+
+### `DESCRIPTION`
+
+The use of the `doParallel` backend has many dependencies that are required
+depending on the features you wish to use. In particular, the `doParallel`
+package requires `foreach` and `parallel` to operate. Only `iterators` can
+be removed from the dependency list if there is sufficient RAM to allocate
+index values, e.g. `1:n`, instead of creating a low cost iterator with `n`
+elements through `iterators::icount()`. 
+
+```
+LinkingTo: 
+    Rcpp
+Imports: 
+    doParallel,
+    Rcpp,
+    foreach,
+    iterators,
+    parallel
+```
+
+### `NAMESPACE`
+
+As discussed in `DESCRIPTION`, the `doParallel()` backend has a few dependencies.
+The following are functions that must be imported into the package in order
+for it to successfully run.
+
+```
+#' @importFrom foreach %dopar% foreach
+#' @importFrom iterators icount
+#' @importFrom doParallel registerDoParallel
+```
 
 ## Author
 
