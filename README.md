@@ -1,7 +1,7 @@
 # Calling an Rcpp Function with a doParallel backend
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/r-pkg-examples/rcpp-and-doparallel.svg?branch=master)](https://travis-ci.com/r-pkg-examples/rcpp-and-doparallel)
+[![R-CMD-check](https://github.com/coatless-rd-rcpp/rcpp-and-doparallel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/coatless-rd-rcpp/rcpp-and-doparallel/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `Rcpp2doParallel` _R_ package provides an example of providing a _C++_

@@ -8,16 +8,17 @@ Authors@R:
            email = "balamut2@illinois.edu")
 Description: Provides an example implementation using a package to house
     both a C++ function and a parallelization routine.
+BugReports: https://github.com/coatless-rd-rcpp/rcpp-and-doparallel/issues
+URL: https://github.com/coatless-rd-rcpp/rcpp-and-doparallel, https://rd-rcpp.thecoatlessprofessor.com/rcpp-and-doparallel/
 License: GPL (>= 2)
 Encoding: UTF-8
-LazyData: true
 LinkingTo: 
     Rcpp
 Imports: 
     doParallel,
-    Rcpp,
+    Rcpp (>= 1.0.12),
     foreach,
     iterators,
     parallel
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.3.1

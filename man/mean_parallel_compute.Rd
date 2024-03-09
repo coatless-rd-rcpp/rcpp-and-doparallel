@@ -4,8 +4,13 @@
 \alias{mean_parallel_compute}
 \title{Call an Rcpp function within a doParallel call}
 \usage{
-mean_parallel_compute(n, mean = 0, sd = 1, n_sim = 1000,
-  n_cores = parallel::detectCores())
+mean_parallel_compute(
+  n,
+  mean = 0,
+  sd = 1,
+  n_sim = 1000,
+  n_cores = parallel::detectCores()
+)
 }
 \arguments{
 \item{n}{Number of Observations}

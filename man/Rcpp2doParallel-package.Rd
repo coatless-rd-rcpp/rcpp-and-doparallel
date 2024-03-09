@@ -6,8 +6,16 @@
 \alias{Rcpp2doParallel-package}
 \title{Rcpp2doParallel: Calling an Rcpp function with doParallel}
 \description{
-Provides an example implementation using a package to house
-    both a C++ function and a parallelization routine.
+Provides an example implementation using a package to house both a C++ function and a parallelization routine.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/coatless-rd-rcpp/rcpp-and-doparallel}
+  \item \url{https://rd-rcpp.thecoatlessprofessor.com/rcpp-and-doparallel/}
+  \item Report bugs at \url{https://github.com/coatless-rd-rcpp/rcpp-and-doparallel/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: James Balamuta \email{balamut2@illinois.edu}
