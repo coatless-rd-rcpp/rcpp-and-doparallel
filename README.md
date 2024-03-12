@@ -30,7 +30,7 @@ With a compiler in hand, one can then install the package from GitHub by:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("r-pkg-examples/rcpp-and-doparallel")
+devtools::install_github("coatless-rd-rcpp/rcpp-and-doparallel")
 library("Rcpp2doParallel")
 ```
 
