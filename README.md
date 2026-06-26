@@ -6,24 +6,24 @@
 
 The `Rcpp2doParallel` _R_ package provides an example of providing a _C++_
 function and a parallelization call from _R_ to the _C++_ function using
-the [`doParallel`](https://cran.r-project.org/package=doParallel) and 
-[`foreach`](https://cran.r-project.org/package=foreach) backend. That said,
-any of the `do*` backends -- [`doFuture`](https://cran.r-project.org/package=doFuture), 
-[`doMC`](https://cran.r-project.org/package=doMC), 
-[`doMPI`](https://cran.r-project.org/package=doMPI),  
-[`doRedis`](https://cran.r-project.org/package=doRedis), 
-[`doRNG`](https://cran.r-project.org/package=doRNG), 
-[`doSNOW`](https://cran.r-project.org/package=doSNOW) -- can be substituted
-in for the [`doParallel`](https://cran.r-project.org/package=doParallel) backend
+the [`doParallel`][cran-doparallel] and 
+[`foreach`][cran-foreach] backend. That said,
+any of the `do*` backends ([`doFuture`][cran-dofuture], 
+[`doMC`][cran-domc], 
+[`doMPI`][cran-dompi],  
+[`doRedis`][cran-doredis], 
+[`doRNG`][cran-dorng], 
+[`doSNOW`][cran-dosnow]) can be substituted
+in for the [`doParallel`][cran-doparallel] backend
 used as a driving example here.
 
 ### Usage
 
 To install the package, you must first have a compiler on your system that is
 compatible with R. For help on obtaining a compiler consult either
-[macOS](http://thecoatlessprofessor.com/programming/r-compiler-tools-for-rcpp-on-os-x/)
+[macOS][compiler-macos]
 or
-[Windows](http://thecoatlessprofessor.com/programming/rcpp/install-rtools-for-rcpp/)
+[Windows][compiler-windows]
 guides.
 
 With a compiler in hand, one can then install the package from GitHub by:
@@ -152,7 +152,7 @@ be removed from the dependency list if there is sufficient RAM to allocate
 index values, e.g. `1:n`, instead of creating a low cost iterator with `n`
 elements through `iterators::icount()`. 
 
-```
+```default
 LinkingTo: 
     Rcpp
 Imports: 
@@ -169,7 +169,7 @@ As discussed in `DESCRIPTION`, the `doParallel()` backend has a few dependencies
 The following are functions that must be imported into the package in order
 for it to successfully run.
 
-```
+```default
 #' @importFrom foreach %dopar% foreach
 #' @importFrom iterators icount
 #' @importFrom doParallel registerDoParallel
@@ -182,3 +182,14 @@ James Joseph Balamuta
 ## License
 
 GPL (\>= 2)
+
+[compiler-macos]: http://thecoatlessprofessor.com/programming/r-compiler-tools-for-rcpp-on-os-x/
+[compiler-windows]: http://thecoatlessprofessor.com/programming/rcpp/install-rtools-for-rcpp/
+[cran-dofuture]: https://cran.r-project.org/package=doFuture
+[cran-domc]: https://cran.r-project.org/package=doMC
+[cran-dompi]: https://cran.r-project.org/package=doMPI
+[cran-doparallel]: https://cran.r-project.org/package=doParallel
+[cran-doredis]: https://cran.r-project.org/package=doRedis
+[cran-dorng]: https://cran.r-project.org/package=doRNG
+[cran-dosnow]: https://cran.r-project.org/package=doSNOW
+[cran-foreach]: https://cran.r-project.org/package=foreach
