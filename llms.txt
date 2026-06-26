@@ -4,13 +4,13 @@ The `Rcpp2doParallel` *R* package provides an example of providing a
 *C++* function and a parallelization call from *R* to the *C++* function
 using the [`doParallel`](https://cran.r-project.org/package=doParallel)
 and [`foreach`](https://cran.r-project.org/package=foreach) backend.
-That said, any of the `do*` backends –
-[`doFuture`](https://cran.r-project.org/package=doFuture),
+That said, any of the `do*` backends
+([`doFuture`](https://cran.r-project.org/package=doFuture),
 [`doMC`](https://cran.r-project.org/package=doMC),
 [`doMPI`](https://cran.r-project.org/package=doMPI),  
 [`doRedis`](https://cran.r-project.org/package=doRedis),
 [`doRNG`](https://cran.r-project.org/package=doRNG),
-[`doSNOW`](https://cran.r-project.org/package=doSNOW) – can be
+[`doSNOW`](https://cran.r-project.org/package=doSNOW)) can be
 substituted in for the
 [`doParallel`](https://cran.r-project.org/package=doParallel) backend
 used as a driving example here.
@@ -158,14 +158,16 @@ sufficient RAM to allocate index values, e.g. `1:n`, instead of creating
 a low cost iterator with `n` elements through
 [`iterators::icount()`](https://rdrr.io/pkg/iterators/man/icount.html).
 
-    LinkingTo:
-        Rcpp
-    Imports:
-        doParallel,
-        Rcpp,
-        foreach,
-        iterators,
-        parallel
+``` default
+LinkingTo: 
+    Rcpp
+Imports: 
+    doParallel,
+    Rcpp,
+    foreach,
+    iterators,
+    parallel
+```
 
 ### `NAMESPACE`
 
@@ -173,9 +175,11 @@ As discussed in `DESCRIPTION`, the `doParallel()` backend has a few
 dependencies. The following are functions that must be imported into the
 package in order for it to successfully run.
 
-    #' @importFrom foreach %dopar% foreach
-    #' @importFrom iterators icount
-    #' @importFrom doParallel registerDoParallel
+``` default
+#' @importFrom foreach %dopar% foreach
+#' @importFrom iterators icount
+#' @importFrom doParallel registerDoParallel
+```
 
 ## Author
 

@@ -57,7 +57,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The <code>Rcpp2doParallel</code> <em>R</em> package provides an example of providing a <em>C++</em> function and a parallelization call from <em>R</em> to the <em>C++</em> function using the <a href="https://cran.r-project.org/package=doParallel" class="external-link"><code>doParallel</code></a> and <a href="https://cran.r-project.org/package=foreach" class="external-link"><code>foreach</code></a> backend. That said, any of the <code>do*</code> backends – <a href="https://cran.r-project.org/package=doFuture" class="external-link"><code>doFuture</code></a>, <a href="https://cran.r-project.org/package=doMC" class="external-link"><code>doMC</code></a>, <a href="https://cran.r-project.org/package=doMPI" class="external-link"><code>doMPI</code></a>,<br><a href="https://cran.r-project.org/package=doRedis" class="external-link"><code>doRedis</code></a>, <a href="https://cran.r-project.org/package=doRNG" class="external-link"><code>doRNG</code></a>, <a href="https://cran.r-project.org/package=doSNOW" class="external-link"><code>doSNOW</code></a> – can be substituted in for the <a href="https://cran.r-project.org/package=doParallel" class="external-link"><code>doParallel</code></a> backend used as a driving example here.</p>
+<p>The <code>Rcpp2doParallel</code> <em>R</em> package provides an example of providing a <em>C++</em> function and a parallelization call from <em>R</em> to the <em>C++</em> function using the <a href="https://cran.r-project.org/package=doParallel" class="external-link"><code>doParallel</code></a> and <a href="https://cran.r-project.org/package=foreach" class="external-link"><code>foreach</code></a> backend. That said, any of the <code>do*</code> backends (<a href="https://cran.r-project.org/package=doFuture" class="external-link"><code>doFuture</code></a>, <a href="https://cran.r-project.org/package=doMC" class="external-link"><code>doMC</code></a>, <a href="https://cran.r-project.org/package=doMPI" class="external-link"><code>doMPI</code></a>,<br><a href="https://cran.r-project.org/package=doRedis" class="external-link"><code>doRedis</code></a>, <a href="https://cran.r-project.org/package=doRNG" class="external-link"><code>doRNG</code></a>, <a href="https://cran.r-project.org/package=doSNOW" class="external-link"><code>doSNOW</code></a>) can be substituted in for the <a href="https://cran.r-project.org/package=doParallel" class="external-link"><code>doParallel</code></a> backend used as a driving example here.</p>
 <div class="section level3">
 <h3 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h3>
@@ -172,23 +172,23 @@
 <code>DESCRIPTION</code><a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
 <p>The use of the <code>doParallel</code> backend has many dependencies that are required depending on the features you wish to use. In particular, the <code>doParallel</code> package requires <code>foreach</code> and <code>parallel</code> to operate. Only <code>iterators</code> can be removed from the dependency list if there is sufficient RAM to allocate index values, e.g. <code>1:n</code>, instead of creating a low cost iterator with <code>n</code> elements through <code><a href="https://rdrr.io/pkg/iterators/man/icount.html" class="external-link">iterators::icount()</a></code>.</p>
-<pre><code>LinkingTo:
-    Rcpp
-Imports:
-    doParallel,
-    Rcpp,
-    foreach,
-    iterators,
-    parallel</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>LinkingTo: </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    Rcpp</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Imports: </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    doParallel,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    Rcpp,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    foreach,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    iterators,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    parallel</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="namespace">
 <code>NAMESPACE</code><a class="anchor" aria-label="anchor" href="#namespace"></a>
 </h3>
 <p>As discussed in <code>DESCRIPTION</code>, the <code>doParallel()</code> backend has a few dependencies. The following are functions that must be imported into the package in order for it to successfully run.</p>
-<pre><code><span><span class="co">#' @importFrom foreach %dopar% foreach</span></span>
-<span><span class="co">#' @importFrom iterators icount</span></span>
-<span><span class="co">#' @importFrom doParallel registerDoParallel</span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>#' @importFrom foreach %dopar% foreach</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>#' @importFrom iterators icount</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>#' @importFrom doParallel registerDoParallel</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
